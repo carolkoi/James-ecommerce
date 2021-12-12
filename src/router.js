@@ -23,51 +23,7 @@ const routes = [
         component: () => import("./views/app/apps"),
         redirect: "/app/apps/chat",
         children: [
-          // {
-          //   path: "scrumboard",
-          //   name: "scrumboard",
-          //   component: () => import("./views/app/apps/scrumboard"),
-            
-          // },
-          // {
-          //   path: "add-scrumboard",
-          //   name: "add-scrumboard",
-          //   component: () => import("./views/app/apps/scrumboardAddBoard")
-          // },
-          // {
-          //   path: "edit-scrumboard",
-          //   name: "edit-scrumboard",
-          //   component: () => import("./views/app/apps/scrumboard/editScrumBoard")
-          // },
-          // {
-          //   path: "scrumboard-one",
-          //   component: () => import("./views/app/apps/scrumboard/scrumboard-content-one")
-          // },
-          // {
-          //   path: "contact-list-table",
-          //   name: "contact-list-table",
-          //   component: () => import("./views/app/apps/contactListTable")
-          // },
-          // {
-          //   path: "todo-list",
-          //   name: "todo-list",
-          //   component: () => import("./views/app/apps/todo-list")
-          // },
-          // {
-          //   path: "invoice",
-          //   name: "invoice",
-          //   component: () => import("./views/app/apps/invoice")
-          // },
-          // {
-          //   path: "createInvoice",
-          //   name: "createInvoice",
-          //   component: () => import("./views/app/apps/createInvoice")
-          // },
-          // {
-          //   path: "edit-invoice",
-          //   name: "edit-invoice",
-          //   component: () => import("./views/app/apps/editInvoice")
-          // },
+          
           {
             path: "products",
             name: "products",

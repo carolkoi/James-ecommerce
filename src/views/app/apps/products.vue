@@ -46,52 +46,7 @@
               >High to Low</b-form-radio
             >
           </b-form-group>
-          <b-form-group>
-            <label for="range-1">
-              <h5 class="text-primary font-weight-600 mb-1 mt-3">Category</h5>
-            </label>
-            <!-- <b-form-radio name="some-radios" value="A">Electronics</b-form-radio>
-            <b-form-radio name="some-radios" value="B">Mobile</b-form-radio>
-            <b-form-radio name="some-radios" value="B">Sports</b-form-radio>
-            <b-form-radio name="some-radios" value="B">Books</b-form-radio> -->
-            <b-form-radio
-              name="radio"
-              :value="category"
-              v-for="(category, index) in getCategoryItem"
-              :key="index"
-              @change="addCategoryItemPage(category)"
-            >
-              {{ category }}
-            </b-form-radio>
-          </b-form-group>
-
-          <b-form-group>
-            <label for="range-1">
-              <h5 class="text-primary font-weight-600 mb-1 mt-3">Brand</h5>
-            </label>
-            <ul class="list-group">
-              <li 
-                v-for="(brand, index) in getBrandsItem"
-                :key="index"
-                class="list-group-item p-0 mb-2 border-0"
-               
-              >
-                <div class="test d-flex">
-                  <label class="checkbox checkbox-primary">
-                    <input
-                      type="checkbox"
-                      :value="brand"
-                      ref="checkFilter"
-                      @change="addBrandToFilterPage(brand)"
-                    />
-
-                    <span class="checkmark"></span>
-                  </label>
-                  {{ brand }}({{ brandsCount[brand] }})
-                </div>
-              </li>
-            </ul>
-          </b-form-group>
+ 
         </b-card>
       </b-col>
       <b-col md="9">
@@ -117,7 +72,7 @@
                 :class="{ 'flex-column': isListView, 'flex-row': !isListView }"
               >
                 <div class="list-thumb d-flex">
-                  <img alt :src="item.img" />
+                  <img alt :src="item.imageUrl" />
                 </div>
                 <div
                   class="flex-grow-1"
@@ -131,40 +86,16 @@
                       <div class="item-title">{{ item.title }}</div>
                     </a>
                     <p class="text-muted text-small w-15 w-sm-100 mb-2">
-                      {{ item.brand }}
+                      {{ item.category }}
                     </p>
 
-                    <!-- star  -->
-                    <!-- <star-rating 
-                        v-model="item.rating"
-                        :star-size="15" 
-                        :show-rating="false"
-                        @rating-selected ="setRating"
-                        class="mb-3"
-                    ></star-rating> -->
+                 
 
 
                     <div class="m-0 text-muted text-small w-15 w-sm-100">
-                      <h6>$ {{ item.productPrice }}</h6>
+                      <h6>$ {{ item.price }}</h6>
                     </div>
-                    <!-- <div class="ul-counter-cart">
-                      <b-button-group class="mx-1">
-                        <b-button variant="ul-btn-cart" @click="removeQty(item)">
-                          <i class="i-Arrow-Left"></i>
-                        </b-button>
-                        <p class="mr-2 ml-2 mb-0">1</p>
-                        <b-button variant="ul-btn-cart" @click="addQty(item)">
-                          <i class="i-Arrow-Right"></i>
-                        </b-button>
-                      </b-button-group>
-                    </div> -->
-                    <p
-                      class="m-0 text-muted text-small w-15 w-sm-100 d-none d-lg-block item-badges"
-                    >
-                      <span :class="item.badgeColor" class="badge">{{
-                        item.discount
-                      }}</span>
-                    </p>
+                   
 
                     <div class="d-flex justify-content-between">
                       <b-button
@@ -295,6 +226,7 @@ export default {
   },
   created: function() {
     this.items = this.getItems;
+    console.log("yaaay", this.items);
   },
   methods: {
     
@@ -304,7 +236,8 @@ export default {
       "addCategoryItem",
       "ascendingOrderCart",
       "descendingOrderCart",
-      "removeQty", "addQty"
+      "removeQty", "addQty",
+      "fetchProductsFromApi"
     ]),
     setRating: function(rating){
       this.rating= rating;
@@ -398,6 +331,9 @@ export default {
   },
   mounted() {
     this.paginate(this.perPage, 0);
+    this.items = this.getItems;
+    this.fetchProductsFromApi()
+    // console.log("getItems getter", this.getItems)
   }
 };
 </script>

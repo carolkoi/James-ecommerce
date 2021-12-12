@@ -16,7 +16,7 @@
               <b-card class="mb-30">
                 <div class="cart d-flex align-items-center justify-content-between">
                   <div class="cart-image">
-                    <img :src="product.img" style="width:220px; height:120px" alt />
+                    <img :src="product.imageUrl" style="width:220px; height:120px" alt />
                   </div>
                   <div class="cart-description flex-grow-1 ml-4">
                     <h6 class="card-title text-18 mb-2">{{product.title}}</h6>
@@ -24,7 +24,7 @@
                       category:
                       <span class="text-primary">{{ product.category }}</span>
                     </p>
-                    <p class="text-success">In Stock</p>
+                    <!-- <p class="text-success">In Stock</p> -->
                     <div class="ul-counter-cart">
                       <b-button-group class="mx-1">
                         <b-button variant="ul-btn-cart" @click="removeQty(product)">
@@ -38,7 +38,7 @@
                     </div>
                   </div>
                   <div class="cart-action text-center">
-                    <h5 class="font-weight-700 text-20 mb-4">$ {{ product.productPrice }}</h5>
+                    <h5 class="font-weight-700 text-20 mb-4">$ {{ product.price }}</h5>
                     <b-button
                       @click="removeCartPage(product, key)"
                       variant="outline"
@@ -67,10 +67,10 @@
                   <p class="font-weight-500 text-16 text-mute">Discount:</p>
                   <p class="text-16">5%</p>
                 </div> -->
-                <div class="d-flex justify-content-between">
+                <!-- <div class="d-flex justify-content-between">
                   <p class="font-weight-500 text-16 text-mute">Delivery Charges:</p>
                   <p class="text-16">Free</p>
-                </div>
+                </div> -->
                 <hr class="mt-2 mb-2" />
 
                 <div class="d-flex justify-content-between">
@@ -78,7 +78,7 @@
                   <p class="text-16">${{ getTotalCart }}</p>
                 </div>
 
-                <b-button block variant="primary" @click="orderAddress">Order</b-button>
+                <b-button block variant="primary" @click="sendEmail">Order</b-button>
               </div>
             </b-card>
           </b-col>
@@ -97,7 +97,26 @@ export default {
   data() {
     return {
       isCounter: 1,
-      minItem: 1
+      minItem: 1,
+      orderdetails: 
+    {
+  "orderId": 0,
+  "orderDate": "2021-12-12T19:40:20.035Z",
+  "orderNumber": "string",
+  "items": [
+    {
+      "id": 0,
+      "quantity": 0,
+      "unitPrice": 0,
+      "productId": 0,
+      "productCategory": "string",
+      "productTitle": "string",
+      "productDescription": "string"
+    }
+  ]
+}
+        
+      
     };
   },
   methods: {
@@ -124,6 +143,9 @@ export default {
     },
     orderAddress() {
       this.$router.push("checkout-address");
+    },
+    sendEmail() {
+
     }
   }
 };

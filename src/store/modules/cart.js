@@ -1,12 +1,13 @@
-import { products } from '../../data/products'
+//import { products } from '../../data/products'
+import axios from "axios";
 const state = {
-    items: products,
+    items: [],
     addToCart: "",
     addedToCart: [],
     removeToCart: "",
     totalCart: 0,
     ascOrder: '',
-    filterProducts: products,
+    filterProducts: [],
     brandFilter: '',
     filterData: '',
     orderBy: '',
@@ -80,10 +81,23 @@ const actions = {
     {
         commit('ADD_QTY', data)
     },
+    fetchProductsFromApi({commit}){
+    axios.get("https://localhost:5001/api/Shop/getproducts").then((pets) => {
+        // console.log('my data is ' , pets.data)
+        let data = pets.data;
+        commit('GET_PRODUCTS', data)
+    })
+    }
     
 }
 
 const mutations = {
+    GET_PRODUCTS(state, data) {
+        state.items = data
+        state.filterProducts = data
+        // console.log("fetched products => " , data);
+
+    },
     ADD_CHECKOUT_FORM(state, data){
         state.checkoutForm.push(data)
         state.checkoutFormAdded = data
@@ -91,18 +105,18 @@ const mutations = {
     },
     TOTAL_CART(state, data){
        state.totalCart = state.addedToCart
-       console.log( state.totalCart.forEach(item => item.productPrice) );
+       console.log( state.totalCart.forEach(item => item.price) );
     },
     ADD_CART(state, data)
     {   
         let findId = state.addedToCart.find( product => product.id == data.id)
         if(findId){
             // console.log(findId)
-            state.totalCart += data.productPrice
+            state.totalCart += data.price
             data['qty']+=1; 
             // console.log(data);   
         }else{
-            state.totalCart += data.productPrice
+            state.totalCart += data.price
             data['qty']=1;
             state.addedToCart.push(data)
         }
@@ -113,12 +127,12 @@ const mutations = {
             console.log(data.qty);
             
             if(data.qty > 1){
-                state.totalCart -= data.productPrice
+                state.totalCart -= data.price
                 data.qty-=1; 
                 console.log(data.qty);
                 
             }else{
-                state.totalCart -= data.productPrice
+                state.totalCart -= data.price
                 let index=state.addedToCart.indexOf(data);
                 state.addedToCart.splice(index, 1)
                 console.log('not working')
@@ -130,7 +144,7 @@ const mutations = {
         let findId = state.addedToCart.find( product => product.id == data.id)
         if(findId){
             if(data.qty < 10){
-                state.totalCart += data.productPrice
+                state.totalCart += data.price
                 data.qty+=1; 
             }else{
                 console.log('not working')
@@ -149,13 +163,13 @@ const mutations = {
         state.filterProducts = state.items.filter( p => p.category == data)
     },
     ASCENDING_ORDER_CART (state) {
-        state.items.sort((a, b) => a.productPrice - b.productPrice)
+        state.items.sort((a, b) => a.price - b.price)
     },
     DESCENDING_ORDER_CART() {
-        state.items.sort((a, b) => b.productPrice - a.productPrice)  
+        state.items.sort((a, b) => b.price - a.price)  
     },
     REMOVE_CART_LIST(state,  data ) {
-       state.totalCart -= data.qty * data.productPrice
+       state.totalCart -= data.qty * data.price
     //    state.removeAddToCart = state.addedToCart
     let index = state.addedToCart.indexOf(data);
     state.addedToCart.splice(index, 1)
