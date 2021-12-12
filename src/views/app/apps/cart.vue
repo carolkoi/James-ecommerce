@@ -89,6 +89,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
+import axios from "axios";
 
 export default {
   computed: {
@@ -98,20 +99,20 @@ export default {
     return {
       isCounter: 1,
       minItem: 1,
-      orderdetails: 
+      orderDetails: 
     {
-  "orderId": 0,
+  "orderId": this.generateRandomOrderNumber(),
   "orderDate": "2021-12-12T19:40:20.035Z",
-  "orderNumber": "string",
+  "orderNumber": this.orderDetails.orderId.toString(),
   "items": [
     {
-      "id": 0,
-      "quantity": 0,
-      "unitPrice": 0,
-      "productId": 0,
-      "productCategory": "string",
-      "productTitle": "string",
-      "productDescription": "string"
+      "id": this.generateRandomOrderNumber(),
+      "quantity": 2,
+      "unitPrice": 97,
+      "productId": this.generateRandomOrderNumber(),
+      "productCategory": "Category",
+      "productTitle": "Title",
+      "productDescription": "Title category"
     }
   ]
 }
@@ -121,6 +122,12 @@ export default {
   },
   methods: {
     ...mapActions(["totalCart", "removeCart", "removeQty", "addQty"]),
+    generateRandomOrderNumber(min, max) {
+      min = 100;
+      max = 100000;
+      return  Math.floor(Math.random()*(max-min+1)+min);
+      // Math.ceil(Math.random()*1000000)
+    },
 
     removeCartPage(product, key) {
       this.$swal({
@@ -145,6 +152,11 @@ export default {
       this.$router.push("checkout-address");
     },
     sendEmail() {
+      alert("am here")
+      console.log("this orderDetails", this.orderDetails)
+      axios.post("https://localhost:5001/api/Shop/postorder", this.orderDetails).then(result => {
+        console.log("see if oredr is posted",result.data);
+      })
 
     }
   }
