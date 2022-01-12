@@ -99,20 +99,21 @@ export default {
     return {
       isCounter: 1,
       minItem: 1,
+      selectedItems: {},
       orderDetails: 
     {
-  "orderId": this.generateRandomOrderNumber(),
-  "orderDate": "2021-12-12T19:40:20.035Z",
-  "orderNumber": this.orderDetails.orderId.toString(),
-  "items": [
+  orderId: '',
+  orderDate: '',
+  orderNumber: '',
+  items: [
     {
-      "id": this.generateRandomOrderNumber(),
-      "quantity": 2,
-      "unitPrice": 97,
-      "productId": this.generateRandomOrderNumber(),
-      "productCategory": "Category",
-      "productTitle": "Title",
-      "productDescription": "Title category"
+      id: '',
+      quantity: 0,
+      unitPrice: 0,
+      productId: '',
+      productCategory: '',
+      productTitle: '',
+      productDescription: ''
     }
   ]
 }
@@ -127,6 +128,15 @@ export default {
       max = 100000;
       return  Math.floor(Math.random()*(max-min+1)+min);
       // Math.ceil(Math.random()*1000000)
+    },
+    currentTime: function () {
+
+      var currentDate = new Date();
+      console.log("my date",currentDate);
+
+      var formatted_date = new Date().toJSON();
+      console.log("formatted date",formatted_date);
+
     },
 
     removeCartPage(product, key) {
@@ -152,13 +162,33 @@ export default {
       this.$router.push("checkout-address");
     },
     sendEmail() {
-      alert("am here")
-      console.log("this orderDetails", this.orderDetails)
-      axios.post("https://localhost:5001/api/Shop/postorder", this.orderDetails).then(result => {
-        console.log("see if oredr is posted",result.data);
-      })
+      console.log("sending data", this.orderDetails)
 
+      this.orderDetails.orderId = this.generateRandomOrderNumber()
+      this.orderDetails.orderDate = new Date().toJSON();
+      this.orderDetails.orderNumber = Math.round(+new Date()/1000).toString();
+      // this.restructureCartItems()
+      // alert("am here")
+      console.log("this orderDetails", this.orderDetails)
+       axios.post("https://localhost:5001/api/Shop/postorder", this.orderDetails).then(result => {
+         console.log("see if oredr is posted",result.data);
+       })
+
+    },
+    restructureCartItems(){
+      const newData = this.getAddToCarts.map(a=>{
+        return {id:a.id,quantity:a.qty,unitPrice:a.price, productId:a.id,
+          productCategory:a.category,productTitle:a.title,productDescription:a.description};
+      })
+      console.log("restructured data", newData)
+      this.orderDetails.items = newData;
     }
+  },
+
+  created() {
+    this.currentTime()
+    this.restructureCartItems()
+    console.log("selected items",this.orderDetails.items)
   }
 };
 </script>

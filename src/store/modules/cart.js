@@ -1,5 +1,6 @@
 //import { products } from '../../data/products'
 import axios from "axios";
+import {isConsole} from "mobile-device-detect";
 const state = {
     items: [],
     addToCart: "",
@@ -108,7 +109,8 @@ const mutations = {
        console.log( state.totalCart.forEach(item => item.price) );
     },
     ADD_CART(state, data)
-    {   
+    {
+
         let findId = state.addedToCart.find( product => product.id == data.id)
         if(findId){
             // console.log(findId)

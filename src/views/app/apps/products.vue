@@ -1,6 +1,6 @@
 <template>
   <div class="main-content">
-    <breadcumb :page="'Products and deeds'" :folder="'Ecomerce'" />
+    <breadcumb :page="'Products and deeds'" :folder="'Ecommerce'" />
     <b-row>
       <b-col md="">
         <button
@@ -226,7 +226,7 @@ export default {
   },
   created: function() {
     this.items = this.getItems;
-    console.log("yaaay", this.items);
+    // console.log("yaaay", this.items);
   },
   methods: {
     
@@ -245,6 +245,7 @@ export default {
       
     },
     addCartPage(item){
+      console.log("item fields", item)
       this.addCart(item)
       this.$bvToast.toast(`${ item.qty } item added to the cart successfully`, {
           title: 'Click View Cart',
@@ -324,12 +325,15 @@ export default {
         pageNumber * pageSize,
         (pageNumber + 1) * pageSize
       );
+
+      console.log("paginated items", this.paginatedItems)
     },
     onPageChanged(page) {
       this.paginate(this.perPage, page - 1);
     }
   },
   mounted() {
+    console.log("paginated items", this.paginatedItems)
     this.paginate(this.perPage, 0);
     this.items = this.getItems;
     this.fetchProductsFromApi()
