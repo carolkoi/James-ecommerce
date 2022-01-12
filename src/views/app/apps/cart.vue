@@ -102,12 +102,10 @@ export default {
       selectedItems: {},
       orderDetails: 
     {
-  orderId: '',
   orderDate: '',
   orderNumber: '',
   items: [
     {
-      id: '',
       quantity: 0,
       unitPrice: 0,
       productId: '',
@@ -164,7 +162,7 @@ export default {
     sendEmail() {
       console.log("sending data", this.orderDetails)
 
-      this.orderDetails.orderId = this.generateRandomOrderNumber()
+      // this.orderDetails.orderId = this.generateRandomOrderNumber()
       this.orderDetails.orderDate = new Date().toJSON();
       this.orderDetails.orderNumber = Math.round(+new Date()/1000).toString();
       // this.restructureCartItems()
@@ -177,7 +175,7 @@ export default {
     },
     restructureCartItems(){
       const newData = this.getAddToCarts.map(a=>{
-        return {id:a.id,quantity:a.qty,unitPrice:a.price, productId:a.id,
+        return {quantity:a.qty,unitPrice:a.price, productId:a.id,
           productCategory:a.category,productTitle:a.title,productDescription:a.description};
       })
       console.log("restructured data", newData)
